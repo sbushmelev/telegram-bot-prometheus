@@ -4,6 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <name>Telegram Bot Prometheus Integration</name>
+    <description>Java library for Telegram bots that provides Prometheus metrics integration</description>
+    <url>https://github.com/sbushmelev/telegram-bot-prometheus</url>
+
+    <organization>
+        <name>Sergei Bushmelev</name>
+        <url>https://github.com/sbushmelev</url>
+    </organization>
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -15,13 +24,19 @@
 
     <scm>
         <url>https://github.com/sbushmelev/telegram-bot-prometheus.git</url>
-        <connection>git@github.com:sbushmelev/telegram-bot-prometheus.git</connection>
-        <developerConnection>git@github.com:sbushmelev/telegram-bot-prometheus.git</developerConnection>
+        <connection>scm:git:git://github.com/sbushmelev/telegram-bot-prometheus.git</connection>
+        <developerConnection>scm:git:ssh://github.com:sbushmelev/telegram-bot-prometheus.git</developerConnection>
     </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/sbushmelev/telegram-bot-prometheus/issues</url>
+    </issueManagement>
 
     <developers>
         <developer>
             <name>Sergei Bushmelev</name>
+            <email>kkopka35@gmail.com</email>
             <organizationUrl>https://github.com/sbushmelev</organizationUrl>
         </developer>
     </developers>
