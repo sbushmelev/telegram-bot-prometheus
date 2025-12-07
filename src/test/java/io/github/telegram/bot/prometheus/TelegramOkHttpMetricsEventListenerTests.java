@@ -88,6 +88,19 @@ class TelegramOkHttpMetricsEventListenerTests {
     }
 
     @Test
+    void metricsWithoutToken() throws IOException {
+        Request request = new Request.Builder()
+                .get()
+                .url(mockWebServer.url("/bot" + TOKEN + "/sendMessage?chat_id=123456213213129&text=hi"))
+                .build();
+
+        try (Response response = okHttpClient.newCall(request).execute()) {
+            assertThat(registry.scrape()).doesNotContain(TOKEN);
+            assertThat(registry.scrape()).doesNotContain("bot" + TOKEN);
+        }
+    }
+
+    @Test
     void throwExIfRegistryIsNull() {
         assertThatThrownBy(() -> TelegramOkHttpMetricsEventListener
                 .builder()
