@@ -1,0 +1,18 @@
+telegram-bot-prometheus
+Copyright (c) 2025 Sergei Bushmelev
+
+This product includes software developed by Sergei Bushmelev (https://github.com/sbushmelev).
+
+Third-party dependencies:
+
+- OkHttp: Copyright Square, Inc. (Apache License 2.0)
+- Micrometer: Copyright VMware, Inc. (Apache License 2.0)
+- JUnit 5: Copyright JUnit Team (Eclipse Public License 2.0)
+- AssertJ: Copyright AssertJ (Apache License 2.0)
+
+This software may include additional open source components not listed here.
+Please refer to individual component licenses for complete terms and conditions.
+
+For more information, visit:
+- Project: https://github.com/sbushmelev/telegram-bot-prometheus
+- Issues: https://github.com/sbushmelev/telegram-bot-prometheus/issues
