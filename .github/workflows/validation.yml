@@ -1,0 +1,64 @@
+name: Maven Tests
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - 'NOTICE'
+  release:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+
+jobs:
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Tests run
+        run: mvn clean install -Pfull-validation jacoco:report checkstyle:checkstyle spotbugs:spotbugs surefire-report:report -B
+
+      - name: Upload spotbugs report artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: spotbugs-report
+          path: target/spotbugs.html
+
+      - name: Upload PMD reports artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmd-report
+          path: target/pmd
+
+      - name: Upload PMD reports html artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: html-pmd-report
+          path: target/site
+
+      - name: Upload jacoco report artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jacoco-report
+          path: target/jacoco-report
+
+      - name: Upload tests report artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tests-report
+          path: target/reports
