@@ -22,15 +22,15 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class TelegramOkHttpMetricsEventListenerTests {
 
-    static MockWebServer mockWebServer;
-    static final String TOKEN = "32jbksdjb324sadzxfdsax";
-    static final PrometheusMeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
-    static final EventListener listener = TelegramOkHttpMetricsEventListener
+    MockWebServer mockWebServer;
+    final String TOKEN = "32jbksdjb324sadzxfdsax";
+    final PrometheusMeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+    final EventListener listener = TelegramOkHttpMetricsEventListener
             .builder()
             .registry(registry)
             .name("tg.http.requests")
             .build();
-    static OkHttpClient okHttpClient;
+    OkHttpClient okHttpClient;
 
     @BeforeEach
     void beforeAll() throws IOException {
@@ -83,8 +83,10 @@ class TelegramOkHttpMetricsEventListenerTests {
                 .build();
 
         try (Response response = okHttpClient.newCall(request).execute()) {
-            assertThat(registry.scrape()).contains("status=\"200\"");
-            assertThat(registry.scrape()).contains("uri=\"/sendMessage\"");
+            String scrape = registry.scrape();
+            assertThat(scrape).contains("status=\"200\"");
+            assertThat(scrape).contains("uri=\"/sendMessage\"");
+            assertThat(scrape).contains("tg_http_requests_seconds_max");
         }
     }
 
