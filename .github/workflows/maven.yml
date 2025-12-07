@@ -1,6 +1,14 @@
 name: CI & Publish to Maven Central
 
 on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - 'NOTICE'
+      - 'docs/**'
   release:
     types: [ created ]
 
