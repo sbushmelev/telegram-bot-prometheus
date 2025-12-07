@@ -8,8 +8,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -32,8 +32,8 @@ class TelegramOkHttpMetricsEventListenerTests {
             .build();
     static OkHttpClient okHttpClient;
 
-    @BeforeAll
-    static void beforeAll() throws IOException {
+    @BeforeEach
+    void beforeAll() throws IOException {
         mockWebServer = new MockWebServer();
         mockWebServer.start();
 
@@ -68,8 +68,8 @@ class TelegramOkHttpMetricsEventListenerTests {
                         """));
     }
 
-    @AfterAll
-    static void afterAll() throws IOException {
+    @AfterEach
+    void afterAll() throws IOException {
         if (mockWebServer != null) {
             mockWebServer.shutdown();
         }
