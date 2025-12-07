@@ -26,7 +26,7 @@
         </developer>
     </developers>
 
-    <groupId>io.github</groupId>
+    <groupId>io.github.sbushmelev</groupId>
     <artifactId>telegram-bot-prometheus</artifactId>
     <version>1.0.0</version>
 

@@ -13,7 +13,7 @@ import okhttp3.EventListener;
  * the request URIs by removing the bot token from the path to prevent
  * sensitive data from appearing in metrics.</p>
  *
- * <h3>Example usage:</h3>
+ * Example usage:
  * <pre>{@code
  * PrometheusMeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
  * OkHttpClient client = new OkHttpClient.Builder()
