@@ -8,8 +8,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -22,18 +22,18 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class TelegramOkHttpMetricsEventListenerTests {
 
-    static MockWebServer mockWebServer;
-    static final String TOKEN = "32jbksdjb324sadzxfdsax";
-    static final PrometheusMeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
-    static final EventListener listener = TelegramOkHttpMetricsEventListener
+    MockWebServer mockWebServer;
+    final String TOKEN = "32jbksdjb324sadzxfdsax";
+    final PrometheusMeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+    final EventListener listener = TelegramOkHttpMetricsEventListener
             .builder()
             .registry(registry)
             .name("tg.http.requests")
             .build();
-    static OkHttpClient okHttpClient;
+    OkHttpClient okHttpClient;
 
-    @BeforeAll
-    static void beforeAll() throws IOException {
+    @BeforeEach
+    void beforeAll() throws IOException {
         mockWebServer = new MockWebServer();
         mockWebServer.start();
 
@@ -68,8 +68,8 @@ class TelegramOkHttpMetricsEventListenerTests {
                         """));
     }
 
-    @AfterAll
-    static void afterAll() throws IOException {
+    @AfterEach
+    void afterAll() throws IOException {
         if (mockWebServer != null) {
             mockWebServer.shutdown();
         }
@@ -83,7 +83,23 @@ class TelegramOkHttpMetricsEventListenerTests {
                 .build();
 
         try (Response response = okHttpClient.newCall(request).execute()) {
-            assertThat(response.code()).isEqualTo(200);
+            String scrape = registry.scrape();
+            assertThat(scrape).contains("status=\"200\"");
+            assertThat(scrape).contains("uri=\"/sendMessage\"");
+            assertThat(scrape).contains("tg_http_requests_seconds_max");
+        }
+    }
+
+    @Test
+    void metricsWithoutToken() throws IOException {
+        Request request = new Request.Builder()
+                .get()
+                .url(mockWebServer.url("/bot" + TOKEN + "/sendMessage?chat_id=123456213213129&text=hi"))
+                .build();
+
+        try (Response response = okHttpClient.newCall(request).execute()) {
+            assertThat(registry.scrape()).doesNotContain(TOKEN);
+            assertThat(registry.scrape()).doesNotContain("bot" + TOKEN);
         }
     }
 
