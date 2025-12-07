@@ -10,7 +10,7 @@ Add the library to your project dependencies:
 
 ```xml
 <dependency>
-    <groupId>io.github</groupId>
+    <groupId>io.github.sbushmelev</groupId>
     <artifactId>telegram-bot-prometheus</artifactId>
     <version>1.0.0</version>
 </dependency>
