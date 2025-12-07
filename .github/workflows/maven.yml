@@ -13,6 +13,21 @@ on:
     types: [ created ]
 
 jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build and Test
+        run: mvn clean verify
+
   publish:
     needs: build-and-test
     if: github.event_name == 'release' && github.event.action == 'created'
