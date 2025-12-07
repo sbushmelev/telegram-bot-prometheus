@@ -83,7 +83,8 @@ class TelegramOkHttpMetricsEventListenerTests {
                 .build();
 
         try (Response response = okHttpClient.newCall(request).execute()) {
-            assertThat(response.code()).isEqualTo(200);
+            assertThat(registry.scrape()).contains("status=\"200\"");
+            assertThat(registry.scrape()).contains("uri=\"/sendMessage\"");
         }
     }
 
